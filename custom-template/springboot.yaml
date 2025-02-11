@@ -65,26 +65,29 @@ spec:
           title: GitLab Host
           type: string
           enum:
-            - gitlab.com
+            - 10.184.7.135:8090
             - gitlab.safaricom.co.ke
-          default: gitlab.com
           description: "Select the GitLab instance to use."
 
         namespace:
           title: Namespace
           type: string
+          description: "Select the namespace to deploy to."
         
         group:
-          title: group
+          title: Group
           type: string
+          description: "Select gitlab group"
         
         subgroup:
-          title: subgroup
+          title: Subgroup
           type: string
+          description: "Select gitlab subgroup. If nested separate by /"
         
         repoName:
           title: Repository Name
           type: string
+          description: "Name of project to create"
   steps:
     - id: generate
       name: Generate project
@@ -104,7 +107,7 @@ spec:
       action: publish:gitlab
       input:
         allowedHosts:
-          - gitlab.com
+          - ${GITLAB_ONPREM_URL}
           # - 10.184.7.135:8090
         description: This is ${{ parameters.repoName }}
         repoUrl: ${{ parameters.allowedHost }}?owner=${{ parameters.group }}/${{ parameters.subgroup }}&repo=${{ parameters.repoName }}

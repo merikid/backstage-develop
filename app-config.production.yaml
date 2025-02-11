@@ -1,13 +1,11 @@
 app:
   title: Developer Portal - Cluster
   baseUrl: ${BASE_URL}
-  # baseUrl: http://10.197.172.67:7000
   listen:
     host: 0.0.0.0 
 
 backend:
   baseUrl: ${BASE_URL}
-  # baseUrl: http://10.197.172.67:7000
   listen:
     port: 7000
   database:
@@ -15,7 +13,6 @@ backend:
     connection: ':memory:'
   cors:
     origin: ${BASE_URL}
-    # origin: http://10.197.172.67:7000
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
   # database:
@@ -39,16 +36,16 @@ auth:
       production:
         clientId: ${GITLAB_CLIENT_ID}
         clientSecret: ${GITLAB_CLIENT_SECRET}
-        audience: ${GITLAB_ONPREM_URL}
+        audience: ${AUDIENCE}
         callbackUrl: ${GITLAB_CALLBACK_URL}
 
 
 
 integrations:
   gitlab:
-    - host: gitlab.com
+    - host: ${GITLAB_HOST}
       baseUrl: ${GITLAB_ONPREM_URL}
-      apiBaseUrl: ${GITLAB_API_BASE_URL}
+      apiBaseUrl: ${GITLAB_ONPREM_API_URL}
       token: ${GITLAB_TOKEN}
 
 
