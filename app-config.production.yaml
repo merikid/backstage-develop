@@ -39,7 +39,7 @@ auth:
       production:
         clientId: ${GITLAB_CLIENT_ID}
         clientSecret: ${GITLAB_CLIENT_SECRET}
-        # audience: ${GITLAB_BASE_URL}
+        audience: ${GITLAB_ONPREM_URL}
         callbackUrl: ${GITLAB_CALLBACK_URL}
 
 
@@ -47,8 +47,8 @@ auth:
 integrations:
   gitlab:
     - host: gitlab.com
-      # baseUrl: ${GITLAB_BASE_URL}
-      # apiBaseUrl: ${GITLAB_API_BASE_URL}
+      baseUrl: ${GITLAB_ONPREM_URL}
+      apiBaseUrl: ${GITLAB_API_BASE_URL}
       token: ${GITLAB_TOKEN}
 
 
