@@ -1,0 +1,63 @@
+app:
+  title: Developer Portal - Cluster
+  baseUrl: ${BASE_URL}
+  # baseUrl: http://10.197.172.67:7000
+  listen:
+    host: 0.0.0.0 
+
+backend:
+  baseUrl: ${BASE_URL}
+  # baseUrl: http://10.197.172.67:7000
+  listen:
+    port: 7000
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+  cors:
+    origin: ${BASE_URL}
+    # origin: http://10.197.172.67:7000
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+  # database:
+  #   client: pg
+  #   connection:
+  #     host: ${POSTGRES_HOST}
+  #     port: ${POSTGRES_PORT}
+  #     user: ${POSTGRES_USER}
+  #     password: ${POSTGRES_PASSWORD}
+      # https://node-postgres.com/features/ssl
+      # you can set the sslmode configuration option via the `PGSSLMODE` environment variable
+      # see https://www.postgresql.org/docs/current/libpq-ssl.html Table 33.1. SSL Mode Descriptions (e.g. require)
+      # ssl:
+      #   ca: # if you have a CA file and want to verify it you can uncomment this section
+      #     $file: <file-path>/ca/server.crt
+      # prod Ov23liD2HfaLhyyUI2WJ / 9e7cdf7b1aa5a63d99821a9b178e2bfbd02ab407
+auth:
+  environment: production
+  providers:
+    gitlab:
+      production:
+        clientId: ${GITLAB_CLIENT_ID}
+        clientSecret: ${GITLAB_CLIENT_SECRET}
+        # audience: ${GITLAB_BASE_URL}
+        callbackUrl: ${GITLAB_CALLBACK_URL}
+
+
+
+integrations:
+  gitlab:
+    - host: gitlab.com
+      # baseUrl: ${GITLAB_BASE_URL}
+      # apiBaseUrl: ${GITLAB_API_BASE_URL}
+      token: ${GITLAB_TOKEN}
+
+
+catalog:
+  rules:
+    - allow: [Component, System, API, Resource, Location, Template]
+  locations:
+    - type: file
+      target: /app/custom-template/springboot.yaml
+      rules:
+        - allow: [Template]
+

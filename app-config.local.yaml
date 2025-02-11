@@ -1,0 +1,60 @@
+app:
+  title: Developer Portal - Local
+  baseUrl: http://localhost:3000
+  listen:
+    host: 0.0.0.0
+
+backend:
+  baseUrl: http://localhost:7000
+  listen:
+    port: 7000
+  cors:
+    origin: http://localhost:3000
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+
+
+auth:
+  environment: development
+  providers:
+    gitlab:
+      development:
+        # clientId: 'e82eae09fa1fe9796c03af2a95123674b3f1348d4ec101e33c501ec2210ed107'
+        clientId: ${GITLAB_CLIENT_ID}
+        # clientSecret: 'gloas-ce763c6815eff84e9abc364123ef6d897ce8376dbbdc4d43766e680585e2ed22'
+        clientSecret: ${GITLAB_CLIENT_SECRET}
+        # audience: http://localhost:8000
+        # clientId: 'e82eae09fa1fe9796c03af2a95123674b3f1348d4ec101e33c501ec2210ed107'
+        # clientSecret: 'gloas-f1b5e35d487242abe1daf80ba70e0ffad7264a22cd5b75dc84f5ef8b3d398c1a'
+        # baseUrl: 'http://192.168.100.7:8000'  
+        # apiUrl: 'http://192.168.100.7:8000/api/v4'
+        # e82eae09fa1fe9796c03af2a95123674b3f1348d4ec101e33c501ec2210ed107
+        # gloas-ce763c6815eff84e9abc364123ef6d897ce8376dbbdc4d43766e680585e2ed22
+        
+
+integrations:
+  gitlab:
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN}
+  
+    # - host: gitlab.safaricom.co.ke
+    #   token: 'glpat-XMzmULZhJbhRDXHr3yxb'
+      # token: ${GITLAB_TOKEN}
+    
+    # - host: localhost
+    #   baseUrl: http://192.168.100.7
+    #   apiBaseUrl: http://192.168.100.7/api/v4
+    # glpat-XMzmULZhJbhRDXHr3yxb
+    #  gitlabcloud : gitlab.safaricom.co.ke
+    #   gitlabonprem : 10.184.7.135:8090/EAIGIT
+      
+
+catalog:
+  # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
+  rules:
+    - allow: [Component, System, API, Resource, Location, Template]
+  locations:
+    - type: file
+      target: ../../custom-template/springboot.yaml
+      rules:
+        - allow: [Template]

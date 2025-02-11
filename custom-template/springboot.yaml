@@ -1,0 +1,128 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: springboot-template
+  title: Spring Boot Template
+  description: Generate a Spring Boot application with custom dependencies
+  tags:
+    - springboot
+    - java
+spec:
+  owner: team@example.com
+  type: service
+  parameters:
+    - title: Project Information
+      type: object
+      required:
+        - name
+        - groupId
+        - artifactId
+        - javaVersion
+      properties:
+        name:
+          title: Project Name
+          type: string
+          default: demo-project
+        groupId:
+          title: Group ID
+          type: string
+          default: com.safaricom
+        artifactId:
+          title: Artifact ID
+          type: string
+          default: demo
+        javaVersion:
+          title: Java Version
+          type: integer
+          enum:
+            - 21
+          default: 21
+        dependencies:
+          title: Select Dependencies
+          type: array
+          items:
+            type: string
+            enum:
+              - spring-boot-starter-web
+              - spring-boot-starter-data-jpa
+              - spring-boot-starter-security
+              - mysql-connector-java
+              - spring-boot-starter-amqp
+              - spring-boot-starter-data-r2dbc
+              - spring-boot-starter-webflux
+              - spring-boot-devtools
+          ui:field: CheckboxGroup
+    - title: Choose a location
+      required:
+        - repoName
+        - namespace
+        - group
+        - subgroup
+        - allowedHost
+
+      properties:
+        allowedHost:
+          title: GitLab Host
+          type: string
+          enum:
+            - gitlab.com
+            - gitlab.safaricom.co.ke
+          default: gitlab.com
+          description: "Select the GitLab instance to use."
+
+        namespace:
+          title: Namespace
+          type: string
+        
+        group:
+          title: group
+          type: string
+        
+        subgroup:
+          title: subgroup
+          type: string
+        
+        repoName:
+          title: Repository Name
+          type: string
+  steps:
+    - id: generate
+      name: Generate project
+      action: fetch:template
+      input:
+        url: ./demo
+        values:
+          name: ${{ parameters.name }}
+          groupId: ${{ parameters.groupId }}
+          artifactId: ${{ parameters.artifactId }}
+          javaVersion: ${{ parameters.javaVersion }}
+          dependencies: ${{ parameters.dependencies }}
+          namespace: ${{ parameters.namespace }}
+    
+    - id: publish
+      name: Publish
+      action: publish:gitlab
+      input:
+        allowedHosts:
+          - gitlab.com
+          # - 10.184.7.135:8090
+        description: This is ${{ parameters.repoName }}
+        repoUrl: ${{ parameters.allowedHost }}?owner=${{ parameters.group }}/${{ parameters.subgroup }}&repo=${{ parameters.repoName }}
+
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: "/catalog-info.yaml"
+
+
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}

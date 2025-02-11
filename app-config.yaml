@@ -1,0 +1,32 @@
+organization:
+  name: Safaricom
+
+backend:
+  baseUrl: http://localhost:7000
+  listen:
+    port: 7000
+  csp:
+    # connect-src: ["'self'", 'http:', 'https:']
+    upgrade-insecure-requests: false
+  
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+  
+techdocs:
+  builder: 'local' # Alternatives - 'external'
+  generator:
+    runIn: 'docker' # Alternatives - 'local'
+  publisher:
+    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+
+scaffolder:
+  # see https://backstage.io/docs/features/software-templates/configuration for software template options
+
+kubernetes:
+  # see https://backstage.io/docs/features/kubernetes/configuration for kubernetes configuration options
+
+# see https://backstage.io/docs/permissions/getting-started for more on the permission framework
+permission:
+  # setting this to `false` will disable permissions
+  enabled: true

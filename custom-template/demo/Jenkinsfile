@@ -1,0 +1,2 @@
+@Library('global_shared_library')
+runPipeline(agent: 'maven-spot-instances', environment: 'on-prem', technology: 'java-21', namespace: '${{ values.namespace }}', mvn_version: 'M363')
