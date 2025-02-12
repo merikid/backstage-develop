@@ -66,6 +66,7 @@ spec:
           type: string
           enum:
             - 10.184.7.135:8090
+            # - gitlab.com
             - gitlab.safaricom.co.ke
           description: "Select the GitLab instance to use."
 
@@ -107,10 +108,12 @@ spec:
       action: publish:gitlab
       input:
         allowedHosts:
-          - ${GITLAB_ONPREM_URL}
+          - gitlab.com
+          # - ${GITLAB_ONPREM_URL}
           # - 10.184.7.135:8090
         description: This is ${{ parameters.repoName }}
         repoUrl: ${{ parameters.allowedHost }}?owner=${{ parameters.group }}/${{ parameters.subgroup }}&repo=${{ parameters.repoName }}
+        defaultBranch: develop
 
 
     - id: register
